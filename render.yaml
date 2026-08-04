@@ -1,20 +1,19 @@
 # Render 免费云部署配置
-# 部署步骤: 上传到 GitHub → render.com 注册 → 连接仓库 → 自动部署
 services:
   - type: web
     name: scenic-invest
     runtime: python
     region: singapore
     plan: free
-    buildCommand: |
-      pip install -r requirements.txt
-      python seed_data.py
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd backend && python -m uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: "3.12"
       - key: SECRET_KEY
         generateValue: true
+      - key: PYTHONPATH
+        value: /opt/render/project/src/backend
     disk:
       name: data
       mountPath: /var/data
