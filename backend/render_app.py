@@ -47,21 +47,8 @@ app.include_router(category_router)
 app.include_router(product_router)
 app.include_router(source_router)
 
-# ====== 种子数据 ======
-print("[STARTUP] Checking seed data...", flush=True)
-try:
-    db = SessionLocal()
-    if db.query(Category).count() == 0:
-        _init_categories(db)
-    if db.query(Product).count() == 0:
-        _init_sample_products(db)
-    db.close()
-    print("[STARTUP] Seed data ready", flush=True)
-except Exception as e:
-    print(f"[STARTUP] Seed warning: {e}", flush=True)
 
-print("[STARTUP] ====== READY ======", flush=True)
-
+# ====== 辅助函数（必须在调用前定义） ======
 
 def _init_categories(db):
     data = [
@@ -84,10 +71,26 @@ def _init_categories(db):
 
 def _init_sample_products(db):
     products = [
-        Product(title="悬崖网红秋千 - 景区高空体验项目", description="建在悬崖边的网红秋千。投资15-50万，回本3-6个月，年利润50-150万。", category_id=2, invest_range="15-50万", price_range="30-60元/人", contact_info={"phone":"13888880001","wechat":"cliff_swing888"}, location={"province":"浙江","city":"温州","scenic_name":"雁荡山"}, tags=["悬崖秋千","网红打卡","回本快"], status="active"),
-        Product(title="沉浸式光影互动体验馆", description="全息投影+动作捕捉+互动感应。投资50-200万，年利润200-500万。", category_id=1, invest_range="50-200万", price_range="50-120元/人", contact_info={"phone":"13999990002","wechat":"immersive_light"}, tags=["全息投影","沉浸式","科技互动"], status="active"),
-        Product(title="彩虹滑道 - 亲子网红游乐设施", description="色彩鲜艳的多人滑道。投资20-80万，回本3-8个月。", category_id=4, invest_range="20-80万", price_range="20-50元/人", contact_info={"phone":"13777770003"}, tags=["彩虹滑道","亲子","网红"], status="active"),
+        Product(title="悬崖网红秋千", description="建在悬崖边的网红秋千。投资15-50万，回本3-6个月，年利润50-150万。", category_id=2, invest_range="15-50万", price_range="30-60元/人", contact_info={"phone":"13888880001","wechat":"cliff_swing888"}, location={"province":"浙江","city":"温州","scenic_name":"雁荡山"}, tags=["悬崖秋千","网红打卡","回本快"], status="active"),
+        Product(title="沉浸式光影互动体验馆", description="全息投影+动作捕捉。投资50-200万，年利润200-500万。", category_id=1, invest_range="50-200万", price_range="50-120元/人", contact_info={"phone":"13999990002","wechat":"immersive_light"}, tags=["全息投影","沉浸式"], status="active"),
+        Product(title="彩虹滑道", description="色彩鲜艳的多人滑道。投资20-80万，回本3-8个月。", category_id=4, invest_range="20-80万", price_range="20-50元/人", contact_info={"phone":"13777770003"}, tags=["彩虹滑道","亲子"], status="active"),
     ]
     for p in products:
         db.add(p)
     db.commit()
+
+
+# ====== 种子数据初始化 ======
+print("[STARTUP] Checking seed data...", flush=True)
+try:
+    db = SessionLocal()
+    if db.query(Category).count() == 0:
+        _init_categories(db)
+    if db.query(Product).count() == 0:
+        _init_sample_products(db)
+    db.close()
+    print("[STARTUP] Seed data ready", flush=True)
+except Exception as e:
+    print(f"[STARTUP] Seed warning: {e}", flush=True)
+
+print("[STARTUP] ====== READY ======", flush=True)
