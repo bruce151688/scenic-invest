@@ -1,0 +1,9 @@
+{
+  "appId": "com.scenic.invest",
+  "webDir": "www",
+  "appName": "景区投资",
+  "server": {
+    "androidScheme": "https",
+    "hostname": "app.scenic-invest.local"
+  }
+}
