@@ -1,20 +1,8 @@
-# Render 免费云部署配置
 services:
   - type: web
     name: scenic-invest
     runtime: python
     region: singapore
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: cd backend && uvicorn render_app:app --host 0.0.0.0 --port $PORT
-    envVars:
-      - key: PYTHON_VERSION
-        value: "3.12"
-      - key: SECRET_KEY
-        generateValue: true
-      - key: PYTHONPATH
-        value: /opt/render/project/src/backend
-    disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1
+    buildCommand: pip install fastapi uvicorn
+    startCommand: uvicorn backend.bare_app:app --host 0.0.0.0 --port $PORT

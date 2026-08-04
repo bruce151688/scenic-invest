@@ -38,3 +38,6 @@ server_stdout.log
 server_stderr.log
 temp/
 tmp/
+git_push.py
+test_render.py
+
